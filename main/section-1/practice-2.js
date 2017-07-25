@@ -1,5 +1,21 @@
 'use strict';
 
 module.exports = function collectSameElements(collectionA, collectionB) {
-  return '实现练习要求，并改写该行代码。';
+    var result = [];
+    var arr = [];
+    collectionB.forEach(str => {
+        str.forEach(ch =>{
+            arr.push(ch);
+        })
+        
+    })
+ //   console.log("arr------------------------------------------:"+arr);
+    
+    collectionA.forEach(item =>{
+        if(arr.indexOf(item) >= 0)
+            result.push(item);
+    })
+  
+//    console.log("result-------------------------------------------------"+result)
+  return result;
 }

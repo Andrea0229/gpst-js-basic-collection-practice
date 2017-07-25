@@ -1,5 +1,13 @@
 'use strict';
 
 module.exports = function createUpdatedCollection(collectionA, objectB) {
-  return '实现练习要求，并改写该行代码。';
+    var list_b = objectB.value;
+ //   console.log("===========================");
+    collectionA.forEach(item =>{
+ //      if(item.key instanceof list_b)
+        if(list_b.indexOf(item.key) >= 0)
+            item.count--;      
+    })
+ //   console.log(collectionA);
+  return collectionA;
 }
