@@ -1,37 +1,45 @@
 'use strict';
 
+function include(mapArr, value) {
+    for (let index in mapArr) {
+        if (mapArr[index].key === value) {
+            return index;
+        }
+    }
+    return -1;
+}
+
+/**
+ * 由特殊符号分割字符串
+ * @param item
+ * @returns {[null,null]}
+ */
+function getNewItem(item) {
+    let [item_ch, item_num] = [item, 1];
+    if (item.indexOf('-') >= 0) {
+        let temp = item.split('-');
+        [item_ch, item_num] = [temp[0], parseInt(temp[1])];
+    }
+    return [item_ch, item_num];
+}
+
+function pushArr(item, result) {
+    let [item_ch, item_num] = getNewItem(item);
+    let index = include(result, item);
+    if (index > -1) {
+        result[index].count += item_num;
+    }
+    else {
+        result.push({key: item_ch, count: item_num});
+    }
+    return result;
+}
+
 module.exports = function countSameElements(collection) {
-    var result = [];
-    var ch_list = [];
-    var ch_num = 1;
-    var index;
-    collection.forEach(item =>{ 
-        var item_ch = item;
-        var item_num = 1;
-        
-        /** 是否bao包含特殊字符 **/
-        var index_0 = item.indexOf('-');
-        if(index_0 >=0){
-            var ch = item.split('-');
-            item_ch = ch[0];
-            item_num = Number(ch[1]);
-        }
-        
-        /** 是否是已经存在的字符 **/ 
-        index = ch_list.indexOf(item_ch);
-        if(index < 0){
-            var list = {};
-            
-            ch_list.push(item_ch);          
-            list.key = item_ch;
-            list.count = item_num;
-            result.push(list);
-        }
-        
-        else
-            result[index].count += item_num;
-//        console.log(result[index])   ;
-    })
-//    console.log(result);
+    let result = [];
+
+    for(let item of collection){
+        result = pushArr(item, result);
+    }
   return result;
 }

@@ -1,18 +1,18 @@
 'use strict';
 
+/*
+ * 选出A集合中与B集合中相同的元素
+ */
 module.exports = function collectSameElements(collectionA, collectionB) {
-  var result = []
-  var k=0
-  for(var i in collectionA){
-      if(collectionB.indexOf(collectionA[i]) >=0 ){
-        result.push(collectionA[i])
-//            result[k++] = collectionA[i]
-//            console.log(result[k-1])
-      }
+    let result = [];
 
-  }
-  //  console.log(result)
-  return result;
-}
+    for (let item of collectionA) {
+        if (collectionB.indexOf(item) >= 0) {
+            result.push(item)
+        }
+    }
+
+    return result;
+};
 
 

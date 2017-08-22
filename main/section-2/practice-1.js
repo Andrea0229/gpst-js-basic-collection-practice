@@ -1,21 +1,35 @@
 'use strict';
 
-module.exports = function countSameElements(collection) {
-    var result = [];
-    var ch_list = [];
-    collection.forEach(item =>{
-        var index = ch_list.indexOf(item);
-        if(index < 0){
-                        ch_list.push(item);
-            var list = {};
-            list.key = item;
-            list.count = 1;
-            result.push(list);
+/**
+ * s数组中是否存在某个指定元素
+ * @param arr
+ * @param value
+ * @returns {boolean}
+ */
+function include(mapArr, value) {
+    for (let index in mapArr) {
+        if (mapArr[index].key === value) {
+            return index;
         }
-        else
-            result[index].count++;
-   //     console.log(result[index])   ;
-    })
-    
-  return result;
+    }
+    return -1;
 }
+
+function countSameElements(collection) {
+    let result = [];
+
+    for (let item of collection) {
+        let index = include(result, item);
+        if (index != -1) {
+            result[index].count++;
+        }
+        else {
+            let temp = {key: item, count: 1}
+            result.push(temp);
+        }
+    }
+
+    return result;
+};
+
+module.exports = countSameElements;

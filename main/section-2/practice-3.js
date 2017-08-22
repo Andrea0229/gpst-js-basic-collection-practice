@@ -1,44 +1,100 @@
 'use strict';
 
+/**
+ * 若包含，返回map下标
+ * @param mapArr
+ * @param value
+ * @returns {*}
+ */
+function getIndex(mapArr, value) {
+    for (let index in mapArr) {
+        if (mapArr[index].name === value) {
+            return index;
+        }
+    }
+    return -1;
+}
+
+/**
+ * 数组中是否包含某个字符
+ * @param str
+ * @param value
+ */
+function isInclude(str, value) {
+    for (let ch of str) {
+        if (ch === value) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * 由特殊符号分割字符串
+ * @param item
+ * @returns {[null,null]}
+ */
+function getNewItem(item) {
+
+    let [item_ch, item_num] = [item, 1];
+    //是否包含特殊字符
+    let special = getSpecial(item);
+    console.log(`special:${special}`)
+    if (special) {
+        let temp = item.split(special);
+        console.log(`item is ${item},special is ${special}:${item}=${temp[0]}, ${parseInt(temp[1])}`)
+            [item_ch, item_num] = [temp[0], parseInt(temp[1])];
+    }
+
+    return [item_ch, item_num];
+}
+
+/**
+ * 是否包含特殊字符
+ * @param str
+ */
+function getSpecial(str) {
+    let special = ['-', ':', '[', ']'];
+    for (let ch of special) {
+        if (isInclude(str, ch)) {
+            return ch;
+        }
+    }
+    return null;
+}
+
+/**
+ * 是否包含某个字符
+ * @param str
+ * @param ch
+ * @returns {boolean}
+ */
+function isInclude(str, ch) {
+    for (let item of ch) {
+        if (ch === item) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function pushArr(item, result) {
+    let [item_ch, item_num] = getNewItem(item);
+    let index = getIndex(result, item);
+    if (index > -1) {
+        result[index].summary += item_num;
+    }
+    else {
+        result.push({name: item_ch, summary: item_num});
+    }
+    return result;
+}
+
 module.exports = function countSameElements(collection) {
-    var result = [];
-    var ch_list = [];
-    var ch_num = 1;
-    var index;
-    collection.forEach(item =>{ 
-        var item_ch = item;
-        var item_num = 1;
-        
-        /** 是否bao包含特殊字符 **/
-        
-        item = item.replace('-',' ');
-        item = item.replace('[', ' ');
-        item = item.replace(']', ' ')
-        item = item.replace(':',' ');
-//        console.log(item);
-        var index_0 = item.indexOf(' ');
-        if(index_0 >=0){         
-            var ch = item.split(' ');
- //           console.log(ch);
-            item_ch = ch[0];
-            item_num = Number(ch[1]);
-        }
-        
-        /** 是否是已经存在的字符 **/ 
-        index = ch_list.indexOf(item_ch);
-        if(index < 0){
-            var list = {};
-            
-            ch_list.push(item_ch);          
-            list.name = item_ch;
-            list.summary = item_num;
-            result.push(list);
-        }
-        
-        else
-            result[index].summary += item_num;
-//        console.log(result[index])   ;
-    })
- //   console.log(result);
-  return result;
+    let result = [];
+
+    for (let item of collection) {
+        result = pushArr(item, result);
+    }
+    return result;
 }
