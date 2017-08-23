@@ -37,20 +37,22 @@ function isInclude(str, value) {
 function getNewItem(item) {
 
     let [item_ch, item_num] = [item, 1];
-    //是否包含特殊字符
     let special = getSpecial(item);
-    console.log(`special:${special}`)
+
     if (special) {
         let temp = item.split(special);
-        console.log(`item is ${item},special is ${special}:${item}=${temp[0]}, ${parseInt(temp[1])}`)
-            [item_ch, item_num] = [temp[0], parseInt(temp[1])];
+
+        if(special === '['){
+            temp[1] = temp[1].split("]")[0];
+        }
+        [item_ch, item_num] = [temp[0], parseInt(temp[1])];
     }
 
     return [item_ch, item_num];
 }
 
 /**
- * 是否包含特殊字符
+ * 是否包含特殊字符(也是一个数组)
  * @param str
  */
 function getSpecial(str) {
@@ -63,24 +65,9 @@ function getSpecial(str) {
     return null;
 }
 
-/**
- * 是否包含某个字符
- * @param str
- * @param ch
- * @returns {boolean}
- */
-function isInclude(str, ch) {
-    for (let item of ch) {
-        if (ch === item) {
-            return true;
-        }
-    }
-    return false;
-}
-
 function pushArr(item, result) {
     let [item_ch, item_num] = getNewItem(item);
-    let index = getIndex(result, item);
+    let index = getIndex(result, item_ch);
     if (index > -1) {
         result[index].summary += item_num;
     }
