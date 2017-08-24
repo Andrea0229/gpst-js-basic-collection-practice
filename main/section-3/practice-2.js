@@ -6,6 +6,6 @@ module.exports = function createUpdatedCollection(collectionA, objectB) {
         if(list_b.indexOf(item.key) >= 0)
             item.count = item.count - parseInt(item.count/3);      
     })
-//    console.log(collectionA);
+
   return collectionA; 
  }
